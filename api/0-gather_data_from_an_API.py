@@ -2,21 +2,22 @@
 """Python script that, using this REST API, for a given employee ID,
 returns information about his/her TODO list progress."""
 import requests
-import sys
+from sys import argv
 
 
 if __name__ == "__main__":
-    user = requests.get(f"https://jsonplaceholder.typicode.com/users/{sys.argv[1]}")
-    todo = requests.get(f"https://jsonplaceholder.typicode.com/users/{sys.argv[1]}/todos")
-    u = user.json()
-    t = todo.json()
+    user = f"https://jsonplaceholder.typicode.com/users/{argv[1]}"
+    todo = f"https://jsonplaceholder.typicode.com/users/{argv[1]}/todos"
+    us = requests.get(user)
+    to = requests.get(todo)
     tr = []
-    for dicc in t:
+    for dicc in to.json():
         for k, v in dicc.items():
             if k == 'completed':
-                if v == True:
+                if v is True:
                     tr.append(dicc)
-    print(f"Employee {u.get('name')} is done with tasks({(len(tr))}/{(len(t))}):")
+    print(f"Employee {us.json().get('name')} is \
+done with tasks({(len(tr))}/{(len(to.json()))}):")
     for tittle in tr:
         for k, v in tittle.items():
             if k == 'title':
