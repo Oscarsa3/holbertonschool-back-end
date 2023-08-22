@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Python script that, using a REST API and export data in the CSV format"""
+"""Python script that, using a REST API and export data in the JSON format"""
 import json
 import requests
 from sys import argv
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     data = []
     for i in todo.json():
         new = {'task': f"{i.get('title')}",
-               'completed': f"{i.get('completed')}",
+               'completed': i.get('completed'),
                'username': f"{user.json().get('username')}"}
         data.append(new)
     dicc = {f"{argv[1]}": data}
